@@ -5,9 +5,12 @@ export default function Homepage() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
 
-  const addToLocalStorage = (link) => {
+  const addToLocalStorage = (short, long) => {
     const list = JSON.parse(localStorage.getItem('shortLink')) || [];
-    list.push(link);
+    list.push({
+      shortUrl: short,
+      longUrl: long,
+    });
     localStorage.setItem('shortLink', JSON.stringify(list));
   };
 
@@ -16,11 +19,32 @@ export default function Homepage() {
     setLongUrl(e.target.value);
   };
 
+  const validateUrl = (url) => {
+    var pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ); // fragment locator
+    return !!pattern.test(url);
+  };
+
   const handleClick = () => {
-    const shortLink = 'sqz.ly/' + longUrl;
-    setShortUrl(shortLink);
-    addToLocalStorage(shortLink);
-    setLongUrl('');
+    const validUrl = validateUrl(longUrl);
+
+    if (validUrl) {
+      const hash = Math.random().toString(36).slice(2, 10);
+      const newShortUrl = 'sqz.ly/' + hash;
+      setShortUrl(newShortUrl);
+
+      addToLocalStorage(newShortUrl, longUrl);
+      setLongUrl('');
+    } else {
+      setShortUrl('URL entered is not valid!!!');
+    }
   };
 
   return (
