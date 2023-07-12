@@ -1,9 +1,15 @@
-import { Box, Button, Input, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 
 export default function Homepage() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+
+  const addToLocalStorage = (link) => {
+    const list = JSON.parse(localStorage.getItem('shortLink')) || [];
+    list.push(link);
+    localStorage.setItem('shortLink', JSON.stringify(list));
+  };
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -13,6 +19,7 @@ export default function Homepage() {
   const handleClick = () => {
     const shortLink = 'sqz.ly/' + longUrl;
     setShortUrl(shortLink);
+    addToLocalStorage(shortLink);
     setLongUrl('');
   };
 
@@ -55,7 +62,6 @@ export default function Homepage() {
 
       <Box sx={{}}>
         <Typography variant="h5">Here's the shortened link: </Typography>
-        {/* <Typography variant="h6">{shortUrl}</Typography> */}
         <TextField
           variant="outlined"
           id="outlined-read-only-input"
