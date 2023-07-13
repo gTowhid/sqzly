@@ -33,9 +33,7 @@ export default function Homepage() {
   };
 
   const handleClick = () => {
-    const validUrl = validateUrl(longUrl);
-
-    if (validUrl) {
+    if (validateUrl(longUrl)) {
       const hash = Math.random().toString(36).slice(2, 10);
       const newShortUrl = 'sqz.ly/' + hash;
       setShortUrl(newShortUrl);
