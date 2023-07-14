@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Link from 'next/link';
 
 export default function ShortLink({ link }) {
@@ -13,8 +13,13 @@ export default function ShortLink({ link }) {
   createLongLink();
 
   return (
-    <Link href={link.longUrl}>
-      <Button variant="outlined">{link.shortUrl}</Button>
-    </Link>
+    <Box sx={{ display: 'flex', gap: '5px' }}>
+      <a target="_blank" href={link.longUrl}>
+        <Button variant="outlined">{link.shortUrl}</Button>
+      </a>
+      <Link href={`http://localhost:3000/edit/${link.id}`}>
+        <Button variant="outlined">Edit</Button>
+      </Link>
+    </Box>
   );
 }

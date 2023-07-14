@@ -12,7 +12,7 @@ export default function List() {
 
   const content =
     linkList && linkList.length > 0
-      ? linkList.map((link) => <ShortLink key={link.shortUrl} link={link} />)
+      ? linkList.map((link) => <ShortLink key={link.id} link={link} />)
       : 'No link found!!!';
 
   return (
@@ -21,7 +21,6 @@ export default function List() {
         display: 'flex',
         flexDirection: 'column',
         gap: '5px',
-        border: '2px solid red',
         height: '97vh',
         justifyContent: 'center',
         alignItems: 'center',

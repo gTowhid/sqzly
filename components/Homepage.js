@@ -5,9 +5,10 @@ export default function Homepage() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
 
-  const addToLocalStorage = (short, long) => {
+  const addToLocalStorage = (short, long, id) => {
     const list = JSON.parse(localStorage.getItem('shortLink')) || [];
     list.push({
+      id,
       shortUrl: short,
       longUrl: long,
     });
@@ -38,7 +39,7 @@ export default function Homepage() {
       const newShortUrl = 'sqz.ly/' + hash;
       setShortUrl(newShortUrl);
 
-      addToLocalStorage(newShortUrl, longUrl);
+      addToLocalStorage(newShortUrl, longUrl, hash);
       setLongUrl('');
     } else {
       setShortUrl('URL entered is not valid!!!');
