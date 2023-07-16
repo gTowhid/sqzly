@@ -1,9 +1,22 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  Divider,
+} from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import CompressIcon from '@mui/icons-material/Compress';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import image from '../public/background.jpg';
 
 export default function Homepage() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+  const router = useRouter();
 
   const addToLocalStorage = (short, long, id) => {
     const list = JSON.parse(localStorage.getItem('shortLink')) || [];
@@ -46,15 +59,20 @@ export default function Homepage() {
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shortUrl);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        height: '100vh',
-      }}
+    <Stack
+      spacing={2}
+      divider={<Divider orientation="horizontal" flexItem />}
+      alignItems="center"
+      justifyContent="center"
+      height="97vh"
+      maxWidth="90vw"
+      marginLeft="auto"
+      marginRight="auto"
     >
       <Box
         sx={{
@@ -62,7 +80,6 @@ export default function Homepage() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '10px',
-
           minWidth: '75%',
         }}
       >
@@ -70,34 +87,93 @@ export default function Homepage() {
           variant="outlined"
           placeholder="Enter complete URL to shorten..."
           sx={{ minWidth: '75%' }}
+          InputProps={{
+            sx: {
+              borderRadius: 20,
+              border: '2px solid #2b6777',
+              backgroundColor: '#c8d8e4',
+              color: 'black',
+            },
+          }}
           onChange={(e) => handleChange(e)}
           value={longUrl}
         />
 
         <Button
           variant="outlined"
-          sx={{ padding: '15px' }}
+          sx={{
+            padding: '15px',
+            backgroundColor: '#52ab98',
+            borderRadius: 50,
+            border: 'none',
+            color: '#f2f2f2',
+            textTransform: 'none',
+          }}
           onClick={handleClick}
         >
-          Generate
+          <CompressIcon />
         </Button>
       </Box>
 
-      <Box sx={{}}>
-        <Typography variant="h5">Here's the shortened link: </Typography>
+      <Stack
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+        marginLeft="auto"
+        marginRight="auto"
+        width="100%"
+        direction={{ xs: 'column', sm: 'row' }}
+      >
+        <Typography variant="h2" fontSize={22} textAlign={{ xs: 'center' }}>
+          Here's the shortened link:{' '}
+        </Typography>
         <TextField
           variant="outlined"
           id="outlined-read-only-input"
+          sx={{ minWidth: '30%' }}
           value={shortUrl}
           InputProps={{
+            sx: {
+              borderRadius: 20,
+              border: '2px solid #2b6777',
+              backgroundColor: '#c8d8e4',
+              color: 'black',
+            },
             readOnly: true,
           }}
         />
-        <Box>
-          <Button variant="outlined">Copy</Button>
-          <Button variant="outlined">Go to</Button>
-        </Box>
-      </Box>
-    </Box>
+
+        <Stack direction="row" gap={2}>
+          <Button
+            variant="outlined"
+            sx={{
+              padding: '15px',
+              backgroundColor: '#52ab98',
+              borderRadius: 50,
+              border: 'none',
+              color: '#f2f2f2',
+              textTransform: 'none',
+            }}
+            onClick={handleCopy}
+          >
+            <ContentCopyIcon />
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              padding: '15px',
+              backgroundColor: '#52ab98',
+              borderRadius: 50,
+              border: 'none',
+              color: '#f2f2f2',
+              textTransform: 'none',
+            }}
+            onClick={() => router.push('/list')}
+          >
+            <ExitToAppIcon />
+          </Button>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }
