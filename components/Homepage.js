@@ -5,18 +5,17 @@ import {
   Typography,
   Stack,
   Divider,
+  Tooltip,
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CompressIcon from '@mui/icons-material/Compress';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import image from '../public/background.jpg';
+import Link from 'next/link';
 
 export default function Homepage() {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
-  const router = useRouter();
 
   const addToLocalStorage = (short, long, id) => {
     const list = JSON.parse(localStorage.getItem('shortLink')) || [];
@@ -53,7 +52,6 @@ export default function Homepage() {
       setShortUrl(newShortUrl);
 
       addToLocalStorage(newShortUrl, longUrl, hash);
-      setLongUrl('');
     } else {
       setShortUrl('URL entered is not valid!!!');
     }
@@ -63,17 +61,47 @@ export default function Homepage() {
     navigator.clipboard.writeText(shortUrl);
   };
 
+  const handleGoTo = () => {
+    if (!(longUrl.startsWith('http://') || longUrl.startsWith('https://'))) {
+      window.open(`http://${longUrl}`, '_blank');
+    } else {
+      window.open(longUrl, '_blank');
+    }
+  };
+
+  const buttonSx = {
+    padding: '15px',
+    backgroundColor: '#52ab98',
+    borderRadius: 50,
+    border: 'none',
+    color: '#f2f2f2',
+    textTransform: 'none',
+    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
+    '&:hover': {
+      backgroundColor: '#008080',
+      border: 'none',
+    },
+  };
+
   return (
     <Stack
-      spacing={2}
-      divider={<Divider orientation="horizontal" flexItem />}
+      spacing={3}
       alignItems="center"
       justifyContent="center"
-      height="97vh"
-      maxWidth="90vw"
+      height="100vh"
+      maxWidth="100vw"
       marginLeft="auto"
       marginRight="auto"
+      backgroundColor="#b2d8d8"
     >
+      <Typography
+        variant="h1"
+        fontSize={44}
+        fontWeight={20}
+        textAlign={{ xs: 'center' }}
+      >
+        Welcome to SQZ.LY
+      </Typography>
       <Box
         sx={{
           display: 'flex',
@@ -98,21 +126,11 @@ export default function Homepage() {
           onChange={(e) => handleChange(e)}
           value={longUrl}
         />
-
-        <Button
-          variant="outlined"
-          sx={{
-            padding: '15px',
-            backgroundColor: '#52ab98',
-            borderRadius: 50,
-            border: 'none',
-            color: '#f2f2f2',
-            textTransform: 'none',
-          }}
-          onClick={handleClick}
-        >
-          <CompressIcon />
-        </Button>
+        <Tooltip title="Squeeeeeze!!!" arrow>
+          <Button variant="outlined" sx={buttonSx} onClick={handleClick}>
+            <CompressIcon />
+          </Button>
+        </Tooltip>
       </Box>
 
       <Stack
@@ -144,36 +162,26 @@ export default function Homepage() {
         />
 
         <Stack direction="row" gap={2}>
-          <Button
-            variant="outlined"
-            sx={{
-              padding: '15px',
-              backgroundColor: '#52ab98',
-              borderRadius: 50,
-              border: 'none',
-              color: '#f2f2f2',
-              textTransform: 'none',
-            }}
-            onClick={handleCopy}
-          >
-            <ContentCopyIcon />
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              padding: '15px',
-              backgroundColor: '#52ab98',
-              borderRadius: 50,
-              border: 'none',
-              color: '#f2f2f2',
-              textTransform: 'none',
-            }}
-            onClick={() => router.push('/list')}
-          >
-            <ExitToAppIcon />
-          </Button>
+          <Tooltip title="Copy" arrow>
+            <Button variant="outlined" sx={buttonSx} onClick={handleCopy}>
+              <ContentCopyIcon />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Go To" arrow>
+            <Button variant="outlined" sx={buttonSx} onClick={handleGoTo}>
+              <ExitToAppIcon />
+            </Button>
+          </Tooltip>
         </Stack>
       </Stack>
+      <Link href="/list">
+        <Tooltip title="List All" arrow>
+          <Button variant="outlined" sx={buttonSx}>
+            Show All Links
+          </Button>
+        </Tooltip>
+      </Link>
     </Stack>
   );
 }
