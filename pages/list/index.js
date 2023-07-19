@@ -36,7 +36,7 @@ export default function List() {
         All the links you have Squeezed!!!
       </Typography>
       <Typography variant="h2" fontSize={22} textAlign={{ xs: 'center' }}>
-        Click to follow
+        Click to follow | Hover to see the full link
       </Typography>
       <Box
         sx={{
