@@ -1,38 +1,107 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SQZ.ly - A Link Shortener App
 
-## Getting Started
+SQZ.ly is a web application built using Next.js, React.js, JavaScript, HTML, and CSS. It allows users to shorten long URLs into more manageable and shareable short links.
 
-First, run the development server:
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+With sqz.ly, users can easily convert lengthy URLs into short and concise links. These short links are easier to share through social media, emails, or messages, and also provide tracking capabilities to monitor link engagement.
+
+## Features
+
+- Shorten long URLs into concise links.
+- Save all shortened (& long) URLs in the localstorage.
+- Update long URLs or delete an entry.
+- Visually appealing and user-friendly interface.
+- Responsive design for seamless usage on different devices.
+
+## Technologies Used
+
+SQZ.ly is built using the following technologies:
+
+- Next.js: A React framework for server-side rendering and optimized production builds.
+- React.js: A JavaScript library for building user interfaces.
+- Material UI: A popular React UI framework for styling and component design.
+- JavaScript: The programming language used for app logic.
+- HTML: The markup language for structuring the app's content.
+- CSS: The stylesheet language for app styling.
+
+## Solution in Details
+
+On the landing page, users will have to enter a long URL and click the shorten link button provided beside the text field. Once clicked, the long URL will be saved in a local state and a hash (random string of 8 digits) will be created. The hash is augmented to 'sqz.ly/' and is represented as the short URL. Then a addToLocalStorage function is called which takes in the long url, short url and the hash (as an id), creates an object with these three and pushes the object into an array 'shortLink' derived from the localStorage.
+
+The Listing page gets the full array of objects ('shortLink') from localStorage using the useEffect and displays the same on the page. Each item of the array is mapped over and rendered seperately with an edit button which directs the user to the Edit page for the concerned link.
+
+On the Edit page, the user gets to edit or delete the concerned entry. This is a dynamically rendered page. Updating or deleting an item brings user to the listing page which is immediately refreshed showing the updated list (due to useEffect). On this edit page, both the update and delete function brings in the complete list from the localStorage, matches the id (with the id found from query parameter) and updates the single entry and replaces the full list of links to the localStorage or replaces the list of links minus the one deleted.
+
+## Installation
+
+To run the Link Shortener App locally, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/gTowhid/sqzly.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd sqzly
+```
+
+3. Install the dependencies:
+
+```bash
+npm install
+```
+
+## Usage
+
+Once you have installed the dependencies, you can start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be accessible at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Deployment
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+To deploy the SQZ.ly App, follow the steps below:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Build the production version of the app:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build
+```
 
-## Learn More
+2. Start the production server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Your app will now be running in production mode.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions to the sqz.ly are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or create a pull request. Please follow the standard GitHub workflow for contributions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The Link Shortener App is open-source and available under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code as per the terms of the license.
+
+---
+
+Thank you for using the Link Shortener App! If you have any questions or need further assistance, please don't hesitate to contact us or open an issue in the repository. Happy linking!
