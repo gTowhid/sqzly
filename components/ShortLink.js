@@ -48,7 +48,7 @@ export default function ShortLink({ link }) {
       </Tooltip>
 
       <Tooltip title="Edit Link" arrow>
-        <Link href={`http://localhost:3000/edit/${link.id}`}>
+        <Link href={`/edit/${link.id}`}>
           <Button variant="outlined" sx={buttonSx} style={{ height: '100%' }}>
             <EditIcon />
           </Button>
